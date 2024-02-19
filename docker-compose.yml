@@ -43,7 +43,7 @@ services:
       context: ./database
       dockerfile: Dockerfile
     ports:
-      - '27017:27017'
+      - '27017'
     volumes:
       - dbdata:/database
 volumes:
