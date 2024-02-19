@@ -1,15 +1,45 @@
 version: "3.9"
 
 services:
+  frontend:
+    build: 
+      dockerfile: Dockerfile
+      context: ./frontend
+    ports:
+      - '80:3000'
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/frontend
+      - ./frontend/node_modules:/frontend/node_modules
+      - ./frontend/.next:/frontend/.next
+    command: npm run dev
   backend:
+    depends_on:
+      - mongodb
     build: 
       dockerfile: Dockerfile
       context: ./backend
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/app
-      - ./backend/node_modules:/app/node_modules
+      - ./backend:/backend
+      - ./backend/node_modules:/backend/node_modules
     environment:
       - PORT=8000
+      - NODE_ENV=development
+      - CRYPTO_KEY=d0851b59f3eed1b0befd75d296531f31033d5a29638e621c945266f3ffe053d2
+      - JWT_PRIVATE_KEY=b7635fb72060431f0c5e59b027eed90bb3ba488740886a9da58d2cd0b506f3d3
     command: npm run dev
+  mongodb:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata:/database
+volumes:
+  dbdata:
