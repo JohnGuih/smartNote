@@ -8,8 +8,10 @@ const Connect = {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
         };
+        if(method !== 'GET') {
+            options.body = JSON.stringify(data);
+        }
         if (APItoken) {
             options.headers['Authorization'] = `Bearer ${APItoken}`;
         }

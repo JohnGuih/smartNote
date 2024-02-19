@@ -16,7 +16,7 @@ const Nav = () => {
     }, [])
 
     return (
-        <nav className="p-4">
+        <nav className="p-4 h-15">
             <div className="container mx-auto flex justify-between items-center">
                 <div>
                     <Link href="/">

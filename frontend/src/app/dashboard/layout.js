@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
       <Head>
         <link rel="icon" href="/img/smartnote-miniature.png" />
       </Head>
-      <body className="bg-slate-950 text-white">
+      <body className="bg-slate-950 text-white w-screen h-screen">
         <Nav />
         {children}
       </body>

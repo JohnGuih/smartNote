@@ -8,12 +8,16 @@ const UserModel = require('./db/model/UserModel');
 const jsonwebtoken = require('jsonwebtoken');
 const { Encrypt, Decrypt } = require('./utils/crypto');
 const { JWTsign } = require('./utils/jsonwebtoken');
+const AuthMiddleware = require('./middleware');
+const NoteModel = require('./db/model/NoteModel');
 
 app.use(cors({
   origin: 'http://localhost'
 }));
 
 app.use(bodyParser.json());
+
+app.use("/", AuthMiddleware);
 
 const startServer = async () => {
   try {
@@ -67,6 +71,54 @@ const startServer = async () => {
           console.error('Failed to create user', err);
           res.status(500).send({ error: 'Failed to create user' });
         });
+    });
+
+    app.post('/note', async (req, res) => {
+      const { noteID, title, content } = req.body;
+      if (!title || !content) {
+        res.status(400).send({ error: 'Invalid data' });
+        return;
+      }
+
+      if (noteID) {
+        const foundNote = await NoteModel.findOne({ _id: noteID });
+        if (!foundNote) {
+          res.status(400).send({ error: 'Note not found' });
+          return;
+        }
+        foundNote.title = title;
+        foundNote.content = content;
+        await foundNote.save();
+        res.send({ ok: true });
+      } else {
+        const userInfo = req.userInfo;
+        NoteModel.create({ user: userInfo.id, title, content })
+          .then(note => {
+            res.send({ ok: true, noteID: note._id });
+          })
+          .catch((err) => {
+            console.error('Failed to create note', err);
+            res.status(500).send({ error: 'Failed to create note' });
+          });
+      }
+
+    });
+
+    app.get('/note', async (req, res) => {
+      const userInfo = req.userInfo;
+      const notes = await NoteModel.find({ user: userInfo.id });
+      res.send({ ok: true, notes });
+    });
+
+    app.get('/note/:noteID', async (req, res) => {
+      const { noteID } = req.params;
+      const userInfo = req.userInfo;
+      const note = await NoteModel.findOne({ _id: noteID, user: userInfo.id });
+      if (!note) {
+        res.status(400).send({ error: 'Note not found' });
+        return;
+      }
+      res.send({ ok: true, note });
     });
 
     app.get('/', (req, res) => {
