@@ -1,6 +1,5 @@
 import Head from "next/head";
 import "../globals.css";
-import Image from "next/image";
 import Nav from "@/components/Nav";
 
 export const metadata = {

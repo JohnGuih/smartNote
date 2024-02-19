@@ -32,7 +32,7 @@ const Home = () => {
         </div>
         <div className="bg-white w-full h-full rounded-tl-[4rem] flex flex-col items-center">
           <h1 className="text-3xl my-6 tracking-wide font-thin">
-            Login
+            Login 
           </h1>
           <form className="flex flex-col items-center mb-3 mx-3 w-full">
             <div className="flex flex-col items-center w-full">

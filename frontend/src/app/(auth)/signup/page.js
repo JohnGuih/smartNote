@@ -18,10 +18,12 @@ const Signup = () => {
             email: formData.email,
             password: formData.password
         }).then((response) => {
-            const token = response.token;
-            Connect.Token.set("api", token);
+            if (response.token) {
+                const token = response.token;
+                Connect.Token.set("api", token);
 
-            route.push('/dashboard');
+                route.push('/dashboard');
+            }
         });
     }
 

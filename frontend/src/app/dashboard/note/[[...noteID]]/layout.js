@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
             <Head>
                 <link rel="icon" href="/img/smartnote-miniature.png" />
             </Head>
-            <body className="bg-slate-950 text-white w-screen h-screen">
+            <body className="bg-slate-950 text-white w-screen h-screen flex flex-col">
                 <nav className="p-4 h-15">
                     <div className="container mx-auto flex justify-between items-center">
                         <div>
@@ -28,7 +28,9 @@ export default function RootLayout({ children }) {
                         </div>
                     </div>
                 </nav>
+                <div className="flex justify-center items-center h-full w-full">
                 {children}
+                </div>
             </body>
         </html>
     );

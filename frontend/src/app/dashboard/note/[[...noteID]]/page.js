@@ -47,7 +47,7 @@ const Note = ({ params }) => {
     }, [])
 
     return (
-        <div className="p-2 w-full h-full">
+        <div className="p-2 w-full h-full max-w-[20rem] max-h-[30rem]">
             <div className="w-full h-full rounded-lg bg-orange-400 p-2 overflow-auto">
                 <form id="myForm" className="w-full h-full" onSubmit={handleSubmit}>
                     <div className="border-b border-gray-200">

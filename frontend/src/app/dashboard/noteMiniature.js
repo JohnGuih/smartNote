@@ -6,7 +6,7 @@ const NoteMiniature = ({ note }) => {
             <div className="border-b border-gray-200">
                 <h3>{note.title}</h3>
             </div>
-            <p>{note.content}</p>
+            <p className="overflow-hidden break-words">{note.content}</p>
         </Link>
     );
 }

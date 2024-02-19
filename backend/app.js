@@ -17,6 +17,11 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
+app.use("/", (req, res, next) => {
+  console.log(req.path);
+  next();
+})
+
 app.use("/", AuthMiddleware);
 
 const startServer = async () => {

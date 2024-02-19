@@ -2,15 +2,20 @@ const { JWTverify } = require("./utils/jsonwebtoken");
 
 const AuthMiddleware = async (req, res, next) => {
     const BearerToken = req.headers.authorization;
-    const isValid = JWTverify(BearerToken.split(' ')[1]);
 
     const allowed = [
         "/auth",
+        "/signup"
     ];
 
+    if(allowed.includes(req.path)) {
+        next();
+        return;
+    }
 
+    const isValid = JWTverify(BearerToken.split(' ')[1]);
 
-    if (isValid || allowed.includes(req.path)) {
+    if (isValid) {
         req.userInfo = isValid;
         next();
     } else {
